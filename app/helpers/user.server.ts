@@ -17,3 +17,22 @@ export const createUser = async (user: RegisterForm) => {
   });
   return { id: newUser.id, email: user.email };
 };
+
+export const getUserById = async (userId: string) => {
+  return await prisma.user.findUnique({
+    where: { id: userId },
+  });
+};
+
+export const getCode = async (userId: string) => {
+  return await prisma.user.findUnique({
+    where: { id: userId },
+    select: { code: true },
+  });
+};
+
+export const getToken = async (userId: string) => {
+  return await prisma.user.findUnique({
+    where: { id: userId },
+  });
+};

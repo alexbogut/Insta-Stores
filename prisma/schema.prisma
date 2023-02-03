@@ -11,15 +11,41 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  profile   Profile
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  email        String    @unique
+  password     String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  profile      Profile
+  items        Item[]    @relation("UserItems")
+  sentMessages Message[] @relation("SentMessages")
+  Messages     Message[] @relation("RecievedMessages")
+  code         String?
+  access_token String?
 }
 
 type Profile {
   firstName String
   lastName  String
+}
+
+model Item {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  price     String?
+  imageUrl  String   @unique
+  createdAt DateTime @default(now())
+  sold      Boolean
+  User      User     @relation(fields: [userId], references: [id], "UserItems")
+  userId    String   @db.ObjectId
+}
+
+model Message {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  text        String
+  createdAt   DateTime @default(now())
+  author      User     @relation(fields: [authorId], references: [id], "SentMessages")
+  authorId    String   @db.ObjectId
+  recipient   User     @relation(fields: [recipientId], references: [id], "RecievedMessages")
+  recipientId String   @db.ObjectId
 }
