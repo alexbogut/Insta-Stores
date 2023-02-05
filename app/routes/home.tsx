@@ -3,89 +3,62 @@ import { Card } from "~/components/card";
 import type { LoaderFunction } from "@remix-run/node";
 import { requireUserId } from "~/helpers/auth.server";
 import { Outlet, useLoaderData } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 
-export const loader: LoaderFunction = async ({ request }) => {
-  let INSTAGRAM_CLIENT_ID: any = process.env.INSTAGRAM_CLIENT_ID;
-  let INSTAGRAM_CLIENT_SECRET: any = process.env.INSTAGRAM_CLIENT_SECRET;
-  let url = new URL(request.url);
-  let code = url.searchParams.get("code");
-  console.log(code);
-
-  const fetchData = async (props: {
-    access_token: string;
-    user_id: string;
-  }) => {
-    var myHeaders = new Headers();
-    myHeaders.append(
-      "Cookie",
-      "csrftoken=KohUfJJzyRrIApexqBW3enDMmHjgTJNH; ig_nrcb=1"
-    );
-
-    var requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-      redirect: "follow",
-    };
-
-    const res = await fetch(
-      `https://graph.instagram.com/me/media?fields=id,caption,media_url&access_token=${props.access_token}`,
-      requestOptions as RequestInit
-    );
-
-    const data = await res.json();
-
-    return data;
-  };
-
-  const fetchToken = async (code: any) => {
-    var myHeaders = new Headers();
-    myHeaders.append(
-      "Cookie",
-      "csrftoken=KohUfJJzyRrIApexqBW3enDMmHjgTJNH; ig_nrcb=1"
-    );
-
-    var formdata = new URLSearchParams();
-    formdata.append("client_id", INSTAGRAM_CLIENT_ID);
-    formdata.append("client_secret", INSTAGRAM_CLIENT_SECRET);
-    formdata.append("grant_type", "authorization_code");
-    formdata.append("redirect_uri", "https://6ea2-69-127-45-71.ngrok.io/home");
-    formdata.append("code", code);
-
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: formdata,
-      redirect: "follow",
-    };
-
-    const res = await fetch(
-      "https://api.instagram.com/oauth/access_token",
-      requestOptions as RequestInit
-    );
-
-    const data = await res.json();
-
-    return data;
-  };
-
-  const res = await fetchToken(code);
-  console.log(res);
-  const data = await fetchData(res);
-  console.log(data);
-  return data;
-};
+// export const loader: LoaderFunction = async ({ request }) => {};
 
 export default function Home() {
-  const { data } = useLoaderData();
-
   return (
-    <>
-      <Outlet />
-      <div className="h-full flex">
-        {data.map((item: any) => (
-          <Card key={item.id} {...item} />
-        ))}
+    <div className="flex justify-center">
+      <div className="w-1/2 mt-5">
+        <form>
+          <label
+            htmlFor="default-search"
+            className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+          >
+            Search
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <svg
+                aria-hidden="true"
+                className="w-5 h-5 text-gray-500 dark:text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                ></path>
+              </svg>
+            </div>
+            <input
+              type="search"
+              id="default-search"
+              className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Search Users, Stores..."
+              required
+            />
+            <button
+              type="submit"
+              className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Search
+            </button>
+          </div>
+        </form>
       </div>
-    </>
+      <div>
+        <Link to="/store">
+          <button className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            My Store
+          </button>
+        </Link>
+      </div>
+    </div>
   );
 }
