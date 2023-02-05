@@ -115,11 +115,3 @@ export async function logout(request: Request) {
     },
   });
 }
-
-export async function authInsta() {
-  return (window.location.href = `https://api.instagram.com/oauth/authorize
-  ?client_id=${process.env.INSTAGRAM_CLIENT_ID}
-  &redirect_uri=${process.env.INSTAGRAM_REDIRECT_URI}
-  &scope=user_profile,user_media
-  &response_type=code`);
-}

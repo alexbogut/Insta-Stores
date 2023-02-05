@@ -9,6 +9,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   let userId = await getUserId(request);
   let media = await requireMedia(userId);
   console.log(media);
+  JSON.parse(media);
   return media;
 };
 export default function Store() {
@@ -26,9 +27,11 @@ export default function Store() {
       >
         Log in with Insta
       </button>
-      {media.length !== 0
-        ? media.map((item: any) => <Card key={item.id} {...item} />)
-        : null}
+      {media.length !== 0 ? (
+        media.map((item: any) => <Card key={item.id} {...item} />)
+      ) : (
+        <h2>No Items in Store ...</h2>
+      )}
     </>
   );
 }

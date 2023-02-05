@@ -1,4 +1,5 @@
-import { fetchToken, fetchData } from "~/helpers/instaAuth.server";
+import { fetchToken, fetchData, saveMedia } from "~/helpers/instaAuth.server";
+import { getUserId } from "~/helpers/auth.server";
 import type { LoaderFunction } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import { Card } from "~/components/card";
@@ -12,6 +13,9 @@ export const loader: LoaderFunction = async ({ request }) => {
   console.log(res);
   const data = await fetchData(res);
   console.log(data);
+  JSON.stringify(data);
+  const userId = await getUserId(request);
+  saveMedia(userId, data);
   return data;
 };
 export default function Store() {

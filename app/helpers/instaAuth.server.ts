@@ -1,5 +1,4 @@
 import { prisma } from "./prisma.server";
-import { json } from "@remix-run/node";
 
 let INSTAGRAM_CLIENT_ID: any = process.env.INSTAGRAM_CLIENT_ID;
 let INSTAGRAM_CLIENT_SECRET: any = process.env.INSTAGRAM_CLIENT_SECRET;
@@ -70,4 +69,15 @@ export const requireMedia = async (userId: string | null) => {
     select: { items: true },
   });
   return media;
+};
+
+export const saveMedia = async (userId: string | null, media: any) => {
+  if (userId !== typeof "string") {
+    return null;
+  }
+  let item = await prisma.user.update({
+    where: { id: userId },
+    data: { items: media },
+  });
+  return item;
 };

@@ -17,7 +17,7 @@ model User {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
   profile      Profile
-  items        Item[]    @relation("UserItems")
+  items        String?
   sentMessages Message[] @relation("SentMessages")
   Messages     Message[] @relation("RecievedMessages")
   code         String?
@@ -29,16 +29,16 @@ type Profile {
   lastName  String
 }
 
-model Item {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  price     String?
-  imageUrl  String   @unique
-  createdAt DateTime @default(now())
-  sold      Boolean
-  User      User     @relation(fields: [userId], references: [id], "UserItems")
-  userId    String   @db.ObjectId
-}
+// model Item {
+//   id        String   @id @default(auto()) @map("_id") @db.ObjectId
+//   name      String
+//   price     String?
+//   imageUrl  String   @unique
+//   createdAt DateTime @default(now())
+//   sold      Boolean
+//   User      User     @relation(fields: [userId], references: [id], "UserItems")
+//   userId    String   @db.ObjectId
+// }
 
 model Message {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
