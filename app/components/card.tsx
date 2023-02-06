@@ -6,11 +6,15 @@ interface Props {
   caption: string;
   media_url: string;
   username: string;
+  userId: string;
 }
 
 export function Card(props: Props) {
   return (
-    <Link to={`/item/${props.username}`}>
+    <Link
+      className="flex justify-center"
+      to={`/item/${props.userId}/${props.id}`}
+    >
       <div className="max-w-sm rounded overflow-hidden shadow-lg">
         <img
           className="w-full"

@@ -7,23 +7,34 @@ import { Card } from "~/components/card";
 import { Link } from "@remix-run/react";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-  const username = params.sellerId;
-  if (username === undefined) {
+  const userId = params.sellerId;
+
+  if (userId === undefined) {
     return null;
   }
-  const media = await getMedia(username);
+  const media = await getMedia(userId);
   const res = JSON.parse(media);
 
-  return res;
+  return { res, userId };
 };
 export default function Store() {
-  const res = useLoaderData();
+  const { res, userId } = useLoaderData();
 
   return (
     <>
-      <div className="grid grid-cols-4 gap-4">
+      <div className="flex justify-center mt-6">
+        <h2 className="text-2xl font-extrabold">{`Welcome to ${res[0].username}!`}</h2>
+      </div>
+      <div className="flex justify-center">
+        <h2 className="text-xl font-semi-bold">
+          Click on an item to send a message
+        </h2>
+      </div>
+      <div className="grid grid-cols-4 gap-y-6 justify-around mt-10">
         {res.length !== 0 ? (
-          res.map((item: any) => <Card key={item.id} {...item} />)
+          res.map((item: any) => (
+            <Card key={item.id} {...item} userId={userId} />
+          ))
         ) : (
           <h2>No Items in Store ...</h2>
         )}

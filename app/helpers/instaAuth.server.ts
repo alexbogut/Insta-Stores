@@ -64,29 +64,27 @@ export const requireMedia = async (userId: string | null) => {
   if (userId === null) {
     return "[]" as string;
   }
-  let media = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { items: true },
+  let media = await prisma.item.findMany({
+    where: { ownerId: userId },
   });
   if (media === null) {
     return "[]" as string;
   } else {
-    return media.items;
+    return media;
   }
 };
 
-export const getMedia = async (username: string) => {
+export const getMedia = async (id: string) => {
   // if (userId === null) {
   //   return "[]" as string;
   // }
-  let media = await prisma.user.findFirst({
-    where: { username: username },
-    select: { items: true },
+  let media = await prisma.item.findMany({
+    where: { ownerId: id },
   });
   if (media === null) {
     return "[]" as string;
   } else {
-    return media.items;
+    return media;
   }
 };
 
@@ -94,11 +92,21 @@ export const saveMedia = async (userId: string | null, media: any) => {
   if (userId === null) {
     return "Invalid UserID";
   }
-  let item = await prisma.user.update({
-    where: { id: userId },
-    data: { items: media },
-  });
-  return item;
+  await prisma.item.deleteMany({ where: { ownderId: userId } });
+
+  let items = await media.map(
+    async (content: { caption: string; media_url: string; username: string }) =>
+      await prisma.item.create({
+        data: {
+          caption: content.caption,
+          imageURL: content.media_url,
+          username: content.username,
+          owner: { connect: { id: userId } },
+        },
+      })
+  );
+
+  return items;
 };
 
 export const searchStores = async (query: string) => {

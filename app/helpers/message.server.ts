@@ -1,4 +1,4 @@
-import { prisma } from "@prisma/client";
+import { prisma } from "./prisma.server";
 
 export const createMessage = async (
   message: string,

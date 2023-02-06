@@ -19,12 +19,11 @@ export const loader: LoaderFunction = async ({ request }) => {
   const data = await fetchData(res);
   const username = data.data[0].username;
   console.log("Data from Insta:", data);
-  let mediaOBJ = data.data;
-  let mediaSTR = JSON.stringify(mediaOBJ);
+  let media = data.data;
   const userId = await getUserId(request);
   await saveUsername(userId, username);
   console.log("User:", userId);
-  const item = await saveMedia(userId, mediaSTR);
+  const item = await saveMedia(userId, media);
   console.log("ITEM:", item);
   return redirect("/store");
 };

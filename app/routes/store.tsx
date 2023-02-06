@@ -10,9 +10,8 @@ export const loader: LoaderFunction = async ({ request }) => {
   const userId = await getUserId(request);
 
   const media = await requireMedia(userId);
-  const res = JSON.parse(media);
 
-  return json(res);
+  return json(media);
 };
 export default function Store() {
   const res = useLoaderData();

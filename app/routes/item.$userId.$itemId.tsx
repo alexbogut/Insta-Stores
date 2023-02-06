@@ -8,7 +8,7 @@ import { useState } from "react";
 import { createMessage } from "~/helpers/message.server";
 
 export const loader: LoaderFunction = async ({ params }) => {
-  const { userId } = params;
+  const { userId, itemId } = params;
   if (typeof userId !== "string") {
     return redirect("/home");
   }
@@ -40,7 +40,7 @@ export const action: ActionFunction = async ({ request }) => {
   }
   await createMessage(message, userId, recipientId);
 
-  return redirect("/home");
+  return null;
 };
 
 export default function MessageModal() {
@@ -58,7 +58,7 @@ export default function MessageModal() {
   };
   const { recipient } = useLoaderData();
   return (
-    <Modal isOpen={true} className="w-1/2 p-10">
+    <Modal isOpen={true} className="w-1/2 p-10" userId={recipient.id}>
       <div className="text-xs font-semibold text-center tracking-wide text-red-500 w-full mb-2">
         {formError}
       </div>
@@ -74,10 +74,15 @@ export default function MessageModal() {
               placeholder={`Let ${recipient.profile.firstName} know you're interested!`}
             ></textarea>
           </div>
+        </div>
+        <div className="flex justify-end mt-5">
           <button
             type="submit"
             className="rouded-xl bg-yellow-300 font-semibold text-blue-600 w-80 h-12 transition duration-300 ease-in-out hover:bg-yellow-400 hover:-translate-y-1"
-          ></button>
+          >
+            {" "}
+            Send
+          </button>
         </div>
       </form>
     </Modal>

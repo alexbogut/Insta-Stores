@@ -17,7 +17,7 @@ model User {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
   profile      Profile
-  items        String    @default("[]")
+  items        Item[]    @relation("OwnedItems")
   sentMessages Message[] @relation("SentMessages")
   Messages     Message[] @relation("RecievedMessages")
   code         String?
@@ -49,4 +49,13 @@ model Message {
   authorId    String   @db.ObjectId
   recipient   User     @relation(fields: [recipientId], references: [id], "RecievedMessages")
   recipientId String   @db.ObjectId
+}
+
+model Item {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  caption  String
+  imageURL String
+  username String
+  owner    User   @relation(fields: [ownerId], references: [id], "OwnedItems")
+  ownerId  String @db.ObjectId
 }
