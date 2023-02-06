@@ -20,7 +20,7 @@ export const fetchData = async (props: {
   };
 
   const res = await fetch(
-    `https://graph.instagram.com/me/media?fields=id,caption,media_url&access_token=${props.access_token}`,
+    `https://graph.instagram.com/me/media?fields=id,caption,media_url,username&access_token=${props.access_token}`,
     requestOptions as RequestInit
   );
 
@@ -61,23 +61,62 @@ export const fetchToken = async (code: any) => {
 };
 
 export const requireMedia = async (userId: string | null) => {
-  if (userId !== typeof "string") {
-    return null;
+  if (userId === null) {
+    return "[]" as string;
   }
   let media = await prisma.user.findUnique({
     where: { id: userId },
     select: { items: true },
   });
-  return media;
+  if (media === null) {
+    return "[]" as string;
+  } else {
+    return media.items;
+  }
+};
+
+export const getMedia = async (username: string) => {
+  // if (userId === null) {
+  //   return "[]" as string;
+  // }
+  let media = await prisma.user.findFirst({
+    where: { username: username },
+    select: { items: true },
+  });
+  if (media === null) {
+    return "[]" as string;
+  } else {
+    return media.items;
+  }
 };
 
 export const saveMedia = async (userId: string | null, media: any) => {
-  if (userId !== typeof "string") {
-    return null;
+  console.log(userId);
+  if (userId === null) {
+    return "sorry";
   }
   let item = await prisma.user.update({
     where: { id: userId },
     data: { items: media },
   });
   return item;
+};
+
+export const searchStores = async (query: string) => {
+  let stores = await prisma.user.findMany({
+    where: { username: { contains: query } },
+    select: { username: true },
+  });
+  return stores;
+};
+
+export const saveUsername = async (userId: string | null, username: string) => {
+  if (userId === null) {
+    return "sorry";
+  }
+  let user = await prisma.user.update({
+    where: { id: userId },
+    data: { username: username },
+  });
+  return user;
 };
