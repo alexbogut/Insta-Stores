@@ -190,13 +190,6 @@ export default function Login() {
             </button>
           </div>
         </form>
-
-        <button
-          onClick={() => instaLogin()}
-          className="rounded-xl mt-2 bg-yellow-300 px-3 py-2 text-blue-600 font-semibold transition duration-300 ease-in-out hover:bg-yellow-400 hover:-translate-y-1"
-        >
-          Log in with Insta
-        </button>
       </div>
     </Layout>
   );

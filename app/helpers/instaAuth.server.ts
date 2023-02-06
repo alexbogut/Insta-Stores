@@ -91,9 +91,8 @@ export const getMedia = async (username: string) => {
 };
 
 export const saveMedia = async (userId: string | null, media: any) => {
-  console.log(userId);
   if (userId === null) {
-    return "sorry";
+    return "Invalid UserID";
   }
   let item = await prisma.user.update({
     where: { id: userId },
@@ -105,7 +104,7 @@ export const saveMedia = async (userId: string | null, media: any) => {
 export const searchStores = async (query: string) => {
   let stores = await prisma.user.findMany({
     where: { username: { contains: query } },
-    select: { username: true },
+    select: { username: true, id: true },
   });
   return stores;
 };

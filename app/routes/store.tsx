@@ -8,20 +8,17 @@ import { Link } from "@remix-run/react";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const userId = await getUserId(request);
+
   const media = await requireMedia(userId);
   const res = JSON.parse(media);
 
-  return res;
+  return json(res);
 };
 export default function Store() {
   const res = useLoaderData();
   let navigate = useNavigate();
   const instaLogin = () => {
     window.location.href = `https://api.instagram.com/oauth/authorize?client_id=1332287557340473&redirect_uri=https://069b-69-127-45-71.ngrok.io/insta&scope=user_profile,user_media&response_type=code`;
-  };
-
-  const clickHandler = () => {
-    return navigate("home");
   };
 
   return (
