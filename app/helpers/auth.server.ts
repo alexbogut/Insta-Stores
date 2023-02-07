@@ -115,3 +115,9 @@ export async function logout(request: Request) {
     },
   });
 }
+
+export async function deleteAllUsers() {
+  const users = await prisma.user.deleteMany();
+
+  return users;
+}

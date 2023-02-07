@@ -2,6 +2,7 @@ import { prisma } from "./prisma.server";
 
 let INSTAGRAM_CLIENT_ID: any = process.env.INSTAGRAM_CLIENT_ID;
 let INSTAGRAM_CLIENT_SECRET: any = process.env.INSTAGRAM_CLIENT_SECRET;
+let URI: any = process.env.INSTAGRAM_REDIRECT_URI;
 
 export const fetchData = async (props: {
   access_token: string;
@@ -40,7 +41,7 @@ export const fetchToken = async (code: any) => {
   formdata.append("client_id", INSTAGRAM_CLIENT_ID);
   formdata.append("client_secret", INSTAGRAM_CLIENT_SECRET);
   formdata.append("grant_type", "authorization_code");
-  formdata.append("redirect_uri", "https://069b-69-127-45-71.ngrok.io/insta");
+  formdata.append("redirect_uri", URI);
   formdata.append("code", code);
 
   var requestOptions = {
@@ -92,9 +93,9 @@ export const saveMedia = async (userId: string | null, media: any) => {
   if (userId === null) {
     return "Invalid UserID";
   }
-  await prisma.item.deleteMany({ where: { ownderId: userId } });
+  await prisma.item.deleteMany({ where: { ownerId: userId } });
 
-  let items = await media.map(
+  await media.map(
     async (content: { caption: string; media_url: string; username: string }) =>
       await prisma.item.create({
         data: {
@@ -106,7 +107,7 @@ export const saveMedia = async (userId: string | null, media: any) => {
       })
   );
 
-  return items;
+  return media;
 };
 
 export const searchStores = async (query: string) => {
@@ -121,8 +122,9 @@ export const saveUsername = async (userId: string | null, username: string) => {
   if (userId === null) {
     return "sorry";
   }
+  console.log(userId);
   let user = await prisma.user.update({
-    where: { id: userId },
+    where: { id: "63e186a9513cbcf42119cc68" },
     data: { username: username },
   });
   return user;

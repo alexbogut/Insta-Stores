@@ -17,7 +17,7 @@ export default function Store() {
   const res = useLoaderData();
   let navigate = useNavigate();
   const instaLogin = () => {
-    window.location.href = `https://api.instagram.com/oauth/authorize?client_id=1332287557340473&redirect_uri=https://069b-69-127-45-71.ngrok.io/insta&scope=user_profile,user_media&response_type=code`;
+    window.location.href = `https://api.instagram.com/oauth/authorize?client_id=1332287557340473&redirect_uri=${process.env.INSTAGRAM_REDIRECT_URI}&scope=user_profile,user_media&response_type=code`;
   };
 
   return (

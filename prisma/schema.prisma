@@ -30,17 +30,6 @@ type Profile {
   lastName  String
 }
 
-// model Item {
-//   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-//   name      String
-//   price     String?
-//   imageUrl  String   @unique
-//   createdAt DateTime @default(now())
-//   sold      Boolean
-//   User      User     @relation(fields: [userId], references: [id], "UserItems")
-//   userId    String   @db.ObjectId
-// }
-
 model Message {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   text        String
@@ -56,6 +45,6 @@ model Item {
   caption  String
   imageURL String
   username String
-  owner    User   @relation(fields: [ownerId], references: [id], "OwnedItems")
+  owner    User   @relation(fields: [ownerId], references: [id], onDelete: Cascade, "OwnedItems")
   ownerId  String @db.ObjectId
 }

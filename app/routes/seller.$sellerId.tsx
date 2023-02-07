@@ -13,17 +13,16 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     return null;
   }
   const media = await getMedia(userId);
-  const res = JSON.parse(media);
 
-  return { res, userId };
+  return { media };
 };
 export default function Store() {
-  const { res, userId } = useLoaderData();
+  const { media, userId } = useLoaderData();
 
   return (
     <>
       <div className="flex justify-center mt-6">
-        <h2 className="text-2xl font-extrabold">{`Welcome to ${res[0].username}!`}</h2>
+        <h2 className="text-2xl font-extrabold">{`Welcome to ${media[0].username}!`}</h2>
       </div>
       <div className="flex justify-center">
         <h2 className="text-xl font-semi-bold">
@@ -31,8 +30,8 @@ export default function Store() {
         </h2>
       </div>
       <div className="grid grid-cols-4 gap-y-6 justify-around mt-10">
-        {res.length !== 0 ? (
-          res.map((item: any) => (
+        {media.length !== 0 ? (
+          media.map((item: any) => (
             <Card key={item.id} {...item} userId={userId} />
           ))
         ) : (
