@@ -22,13 +22,17 @@ export default function Store() {
 
   return (
     <>
+      <Link className="flex" to={"/home"}>
+        <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-5 mt-5">
+          Home
+        </button>
+      </Link>
       <button
         onClick={() => instaLogin()}
         className="rounded-xl mt-2 bg-yellow-300 px-3 py-2 text-blue-600 font-semibold transition duration-300 ease-in-out hover:bg-yellow-400 hover:-translate-y-1"
       >
         Log in with Insta
       </button>
-      <div>{JSON.stringify(res[0])}</div>
       <div className="grid grid-cols-4 gap-y-6 justify-around mt-10">
         {res.length !== 0 ? (
           res.map((item: any) => <Card key={item.id} {...item} />)
