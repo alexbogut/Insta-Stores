@@ -8,7 +8,7 @@ interface props {
   isOpen: boolean;
   ariaLabel?: string;
   className?: string;
-  userId: string;
+  ownerId?: string;
 }
 
 export const Modal: React.FC<props> = ({
@@ -16,7 +16,7 @@ export const Modal: React.FC<props> = ({
   isOpen,
   ariaLabel,
   className,
-  userId,
+  ownerId,
 }) => {
   const navigate = useNavigate();
   if (!isOpen) return null;
@@ -27,13 +27,12 @@ export const Modal: React.FC<props> = ({
         aria-labelledby={ariaLabel ?? "modal-title"}
         role="dialog"
         aria-modal="true"
-        onClick={() => navigate(`/seller/${userId}`)}
+        onClick={() => navigate(`/seller/${ownerId}`)}
       ></div>
       <div className="fixed inset-0 pointer-events-none flex justify-center items-center max-h-screen overflow-scroll">
         <div
           className={`${className} p-4 bg-gray-200 pointer-events-auto max-h-screen md:rounded-xl`}
         >
-          {/* This is where the modal content is rendered  */}
           {children}
         </div>
       </div>

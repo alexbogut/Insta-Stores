@@ -89,10 +89,6 @@ export default function Login() {
     lastName: actionData?.fields?.firstName || "",
   });
 
-  const instaLogin = () => {
-    window.location.href = `https://api.instagram.com/oauth/authorize?client_id=1332287557340473&redirect_uri=https://f885-69-127-45-71.ngrok.io/home&scope=user_profile,user_media&response_type=code`;
-  };
-
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     field: string

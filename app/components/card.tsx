@@ -4,21 +4,21 @@ import { Link } from "@remix-run/react";
 interface Props {
   id: string;
   caption: string;
-  media_url: string;
+  imageURL: string;
   username: string;
-  userId: string;
+  ownerId: string;
 }
 
 export function Card(props: Props) {
   return (
     <Link
       className="flex justify-center"
-      to={`/item/${props.userId}/${props.id}`}
+      to={`/item/${props.ownerId}/${props.id}`}
     >
       <div className="max-w-sm rounded overflow-hidden shadow-lg">
         <img
           className="w-full"
-          src={props.media_url}
+          src={props.imageURL}
           alt="Sunset in the mountains"
         />
         <div className="px-6 py-4">

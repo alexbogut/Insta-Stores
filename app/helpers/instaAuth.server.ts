@@ -124,7 +124,7 @@ export const saveUsername = async (userId: string | null, username: string) => {
   }
   console.log(userId);
   let user = await prisma.user.update({
-    where: { id: "63e186a9513cbcf42119cc68" },
+    where: { id: userId },
     data: { username: username },
   });
   return user;

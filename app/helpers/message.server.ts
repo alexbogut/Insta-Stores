@@ -21,3 +21,10 @@ export const createMessage = async (
     },
   });
 };
+
+export const getMessages = async (userId: string) => {
+  let messages = await prisma.message.findMany({
+    where: { recipientId: userId },
+  });
+  return messages;
+};

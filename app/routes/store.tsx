@@ -8,16 +8,16 @@ import { Link } from "@remix-run/react";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const userId = await getUserId(request);
-
+  console.log(userId);
   const media = await requireMedia(userId);
-
+  console.log(json(media));
   return json(media);
 };
 export default function Store() {
   const res = useLoaderData();
   let navigate = useNavigate();
   const instaLogin = () => {
-    window.location.href = `https://api.instagram.com/oauth/authorize?client_id=1332287557340473&redirect_uri=${process.env.INSTAGRAM_REDIRECT_URI}&scope=user_profile,user_media&response_type=code`;
+    window.location.href = `https://api.instagram.com/oauth/authorize?client_id=1332287557340473&redirect_uri=https://b058-69-127-45-71.ngrok.io/insta&scope=user_profile,user_media&response_type=code`;
   };
 
   return (
@@ -28,7 +28,8 @@ export default function Store() {
       >
         Log in with Insta
       </button>
-      <div className="grid grid-cols-4 gap-4">
+      <div>{JSON.stringify(res[0])}</div>
+      <div className="grid grid-cols-4 gap-y-6 justify-around mt-10">
         {res.length !== 0 ? (
           res.map((item: any) => <Card key={item.id} {...item} />)
         ) : (
