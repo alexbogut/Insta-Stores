@@ -1,9 +1,10 @@
 import type { LoaderFunction } from "@remix-run/node";
+import { AiTwotoneDelete } from "react-icons/Ai";
 import { requireMedia } from "~/helpers/instaAuth.server";
 import { getUserId } from "~/helpers/auth.server";
 import { json, redirect } from "@remix-run/node";
 import { Outlet, useLoaderData, useNavigate } from "@remix-run/react";
-import { Card } from "~/components/card";
+import { Mailcard } from "~/components/mailCard";
 import { Link } from "@remix-run/react";
 import { useState } from "react";
 import { Layout } from "~/components/layout";
@@ -22,9 +23,32 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function Store() {
   const messages = useLoaderData();
   const [text, setText] = useState(messages[0].text);
+  const [product, setProduct] = useState(messages[0].product);
+  const [header, setHeader] = useState(messages[0].author.profile);
+  const [date, setDate] = useState(new Date(messages[0].createdAt));
+  const [id, setId] = useState(messages[0].id);
 
-  const clickHandler = (text: string) => {
+  const clickHandler = (
+    text: string,
+    createdAt: string,
+    product: {
+      id: string;
+      caption: string;
+      imageURL: string;
+      username: string;
+      ownerID: string;
+    },
+    profile: {
+      firstName: string;
+      lasName: string;
+    },
+    id: string
+  ) => {
     setText(text);
+    setProduct(product);
+    setHeader(profile);
+    setDate(new Date(createdAt));
+    setId(id);
   };
   return (
     <Layout>
@@ -65,15 +89,26 @@ export default function Store() {
           <div className="bg-slate-50 flex-initial w-full flex flex-col">
             <div className="h-20 bg-slate-200 flex justify-between">
               <div className="flex flex-col justify-between ml-4">
-                <div className="mt-2 text-xl">Item Name</div>
-                <div className="mb-2 font-light">Sender Name</div>
+                <div className="mt-2 text-xl">Item# {product.id}</div>
+                <div className="mb-2 font-light">
+                  From: {header.firstName}
+                  {` ${header.lastName}`}
+                </div>
               </div>
               <div className="flex flex-col justify-between mr-4">
-                <div className="mt-2">Delete</div>
-                <div className="mb-2 font-light">date</div>
+                <form action="/deleteMessage" method="POST">
+                  <input type="hidden" value={id} name="id" />
+                  <button type="submit" className="mt-2">
+                    <AiTwotoneDelete />
+                  </button>
+                </form>
+                <div className="mb-2 font-light">{date.toDateString()}</div>
               </div>
             </div>
-            <div className="p-7">{text}</div>
+            <div className="p-7 flex justify-between">
+              <div className="max-w-[350px]">{text}</div>
+              <Mailcard {...product} />
+            </div>
           </div>
         </div>
       </div>

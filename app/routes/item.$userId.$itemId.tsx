@@ -24,9 +24,14 @@ export const action: ActionFunction = async ({ request }) => {
   const form = await request.formData();
   const message = form.get("message");
   const recipientId = form.get("recipientId");
+  const item = form.get("item");
   const userId = await requireUserId(request);
 
-  if (typeof message !== "string" || typeof recipientId !== "string") {
+  if (
+    typeof message !== "string" ||
+    typeof recipientId !== "string" ||
+    typeof item !== "string"
+  ) {
     return json({ error: `Invalid Form Data`, form: action }, { status: 400 });
   }
 
@@ -42,7 +47,7 @@ export const action: ActionFunction = async ({ request }) => {
       { status: 400 }
     );
   }
-  await createMessage(message, userId, recipientId);
+  await createMessage(message, userId, recipientId, item);
 
   return null;
 };
@@ -92,6 +97,7 @@ export default function MessageModal() {
       </div>
       <form method="POST">
         <input type="hidden" value={item.ownerId} name="recipientId" />
+        <input type="hidden" value={JSON.stringify(item)} name="item" />
         <div className="text-center flex flex-col md:flex-row gap-y-2 md:gap-y-0">
           <div className="flex-1 flex flex-col gap-y-4">
             <textarea

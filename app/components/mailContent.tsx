@@ -1,3 +1,5 @@
+import { Card } from "~/components/card";
+
 interface Props {
   id: string;
   text: string;
@@ -20,7 +22,9 @@ export function Mailcontent(props: Props) {
           <div className="mb-2 font-light">{date.toDateString()}</div>
         </div>
       </div>
-      <div className="p-7">{props.text}</div>
+      <div className="p-7 flex justify-between">
+        <div>{props.text}</div>
+      </div>
     </div>
   );
 }
