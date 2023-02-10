@@ -1,5 +1,5 @@
 import type { LoaderFunction } from "@remix-run/node";
-import { AiTwotoneDelete } from "react-icons/Ai";
+import Delete from "~/SVG/airplay.svg";
 import { requireMedia } from "~/helpers/instaAuth.server";
 import { getUserId } from "~/helpers/auth.server";
 import { json, redirect } from "@remix-run/node";
@@ -101,7 +101,7 @@ export default function Inbox() {
                 <form action="/deleteMessage" method="POST">
                   <input type="hidden" value={id} name="id" />
                   <button type="submit" className="mt-2">
-                    <AiTwotoneDelete />
+                    <Delete />
                   </button>
                 </form>
                 <div className="mb-2 font-light">{date.toDateString()}</div>
