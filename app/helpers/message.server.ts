@@ -7,7 +7,6 @@ export const createMessage = async (
   item: string
 ) => {
   let product = JSON.parse(item);
-  console.log("ITEM:", item);
   await prisma.message.create({
     data: {
       text: message,
@@ -32,10 +31,18 @@ export const createMessage = async (
   });
 };
 
-export const getMessages = async (userId: string) => {
+export const getRecievedMessages = async (userId: string) => {
   let messages = await prisma.message.findMany({
     where: { recipientId: userId },
     include: { author: true },
+  });
+  return messages;
+};
+
+export const getSentMessages = async (userId: string) => {
+  let messages = await prisma.message.findMany({
+    where: { authorId: userId },
+    include: { recipient: true, author: true },
   });
   return messages;
 };
@@ -45,8 +52,14 @@ export const clearMessages = async () => {
 };
 
 export const deleteMessage = async (messageId: string) => {
-  console.log("ID:", messageId);
   const message = await prisma.message.delete({ where: { id: messageId } });
-  console.log("MESSAGE;", message);
+  return message;
+};
+
+export const getMessage = async (messageId: string) => {
+  let message = await prisma.message.findUnique({
+    where: { id: messageId },
+    include: { author: true },
+  });
   return message;
 };

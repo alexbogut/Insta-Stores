@@ -6,18 +6,18 @@ import { getUserById } from "~/helpers/user.server";
 import { requireUserId } from "~/helpers/auth.server";
 import { useState } from "react";
 import { createMessage } from "~/helpers/message.server";
-import { getItem } from "~/helpers/item.server";
+import { getMessage } from "~/helpers/message.server";
 
 export const loader: LoaderFunction = async ({ params }) => {
-  const { itemId } = params;
+  const { messageId } = params;
 
-  if (typeof itemId !== "string") {
+  if (typeof messageId !== "string") {
     return redirect("/home");
   }
 
-  let itemjson = await getItem(itemId);
-  let item = json(itemjson);
-  return item;
+  let message = await getMessage(messageId);
+
+  return json(message);
 };
 
 export const action: ActionFunction = async ({ request }) => {
@@ -65,39 +65,24 @@ export default function MessageModal() {
   ) => {
     setFormData((form) => ({ ...form, [field]: e.target.value }));
   };
-  const item = useLoaderData();
+  const message = useLoaderData();
   return (
-    <Modal isOpen={true} className="w-1/3 p-10" URL={`/seller/${item.ownerId}`}>
-      <div className="flex justify-center">
-        <div className="max-w-sm rounded overflow-hidden shadow-lg">
-          <img
-            className="w-full"
-            src={item.imageURL}
-            alt="Sunset in the mountains"
-          />
-          <div className="px-6 py-4">
-            <div className="font-bold text-xl mb-2">The Coldest Sunset</div>
-            <p className="text-gray-700 text-base">{item.caption}</p>
-          </div>
-          <div className="px-6 pt-4 pb-2">
-            <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-              #photography
-            </span>
-            <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-              #travel
-            </span>
-            <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-              #winter
-            </span>
-          </div>
+    <Modal isOpen={true} className="w-1/3 p-10" URL={`/sent`}>
+      <div className="flex justify-center ">
+        <div className="max-w-sm rounded overflow-hidden shadow-lg bg-blue-200 mb-5 p-5">
+          {message.text}
         </div>
       </div>
       <div className="text-xs font-semibold text-center tracking-wide text-red-500 w-full mb-2">
         {formError}
       </div>
       <form method="POST">
-        <input type="hidden" value={item.ownerId} name="recipientId" />
-        <input type="hidden" value={JSON.stringify(item)} name="item" />
+        <input type="hidden" value={message.authorId} name="recipientId" />
+        <input
+          type="hidden"
+          value={JSON.stringify(message.product)}
+          name="item"
+        />
         <div className="text-center flex flex-col md:flex-row gap-y-2 md:gap-y-0">
           <div className="flex-1 flex flex-col gap-y-4">
             <textarea
@@ -105,7 +90,7 @@ export default function MessageModal() {
               className="w-full rounded-xl h-40 p-4"
               value={formData.message}
               onChange={(e) => handleChange(e, "message")}
-              placeholder={`Let ${item.username} know you're interested!`}
+              placeholder={`Respond to ${message.author.profile.firstName}'s message.`}
             ></textarea>
           </div>
         </div>
@@ -115,7 +100,7 @@ export default function MessageModal() {
             className="rouded-xl bg-yellow-300 font-semibold text-blue-600 w-80 h-12 transition duration-300 ease-in-out hover:bg-yellow-400 hover:-translate-y-1"
           >
             {" "}
-            Send
+            Send Reply
           </button>
         </div>
       </form>

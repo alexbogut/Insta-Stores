@@ -122,7 +122,6 @@ export const saveUsername = async (userId: string | null, username: string) => {
   if (userId === null) {
     return "sorry";
   }
-  console.log(userId);
   let user = await prisma.user.update({
     where: { id: userId },
     data: { username: username },

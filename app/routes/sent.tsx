@@ -10,17 +10,17 @@ import { useState } from "react";
 import { Layout } from "~/components/layout";
 import { Mailcontent } from "~/components/mailContent";
 import { Mailitem } from "~/components/mailItem";
-import { getRecievedMessages } from "~/helpers/message.server";
+import { getSentMessages } from "~/helpers/message.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const userId = await getUserId(request);
   if (!userId) {
     return redirect("/login");
   }
-  let messages = await getRecievedMessages(userId);
+  let messages = await getSentMessages(userId);
   return json(messages);
 };
-export default function Inbox() {
+export default function Sent() {
   const messages = useLoaderData();
   const [text, setText] = useState(messages[0].text);
   const [product, setProduct] = useState(messages[0].product);
@@ -64,14 +64,14 @@ export default function Inbox() {
       <div className="flex justify-around">
         <div className="flex drop-shadow-lg w-3/4 mt-11 bg-slate-400 h-[500px]">
           <div className="bg-black flex-initial w-64 flex flex-col">
-            <div className="h-16 text-center pt-4 text-white font-bold transition duration-300 ease-in-out bg-slate-700 hover:bg-slate-700">
-              Inbox
-            </div>
-            <Link to="/sent">
+            <Link to="/inbox">
               <div className="h-16 text-center pt-4 text-white font-bold transition duration-300 ease-in-out hover:bg-slate-700">
-                Sent
+                Inbox
               </div>
             </Link>
+            <div className="h-16 text-center pt-4 text-white font-bold transition duration-300 ease-in-out bg-slate-700 hover:bg-slate-700">
+              Sent
+            </div>
             <div className="h-16 text-center pt-4 text-white font-bold transition duration-300 ease-in-out hover:bg-slate-700">
               Drafts
             </div>
@@ -93,7 +93,7 @@ export default function Inbox() {
               <div className="flex flex-col justify-between ml-4">
                 <div className="mt-2 text-xl">Item# {product.id}</div>
                 <div className="mb-2 font-light">
-                  From: {header.firstName}
+                  To: {header.firstName}
                   {` ${header.lastName}`}
                 </div>
               </div>
@@ -110,11 +110,9 @@ export default function Inbox() {
             <div className="p-7 flex justify-between ">
               <div className="flex flex-col justify-between w-96 flex-1">
                 <div className="max-w-[350px] ">{text}</div>
-                <Link className="self-end " to={`/reply/${id}`}>
-                  <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-5 mt-5 mr-4">
-                    {`Reply ->`}
-                  </button>
-                </Link>
+                {/* <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-5 mt-5 self-end mr-4">
+                  {`Reply ->`}
+                </button> */}
               </div>
 
               <Mailcard {...product} />

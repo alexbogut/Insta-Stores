@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 interface Props {
   id: string;
   text: string;
@@ -22,19 +24,20 @@ interface Props {
 
 export function Mailitem(props: Props) {
   const date = new Date(props.createdAt);
-
+  const [color, setColor] = useState("");
   return (
     <div
-      onClick={() =>
+      onClick={() => {
         props.clickHandler(
           props.text,
           props.createdAt,
           props.product,
           props.author.profile,
           props.id
-        )
-      }
-      className="flex flex-col transition duration-300 ease-in-out hover:bg-blue-300"
+        );
+        setColor("bg-blue-300");
+      }}
+      className={`flex flex-col transition duration-300 ease-in-out ${color} hover:bg-blue-300`}
     >
       <div className="ml-1">Item# {props.id}</div>
       <div className="flex justify-between ml-1 mt-2">

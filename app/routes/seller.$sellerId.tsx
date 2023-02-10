@@ -16,12 +16,12 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
   return { media };
 };
-export default function Store() {
+export default function Seller() {
   const { media, userId } = useLoaderData();
 
   return (
     <>
-      <Link className="flex" to={"/home"}>
+      <Link to={"/home"}>
         <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-5 mt-5">
           Home
         </button>
