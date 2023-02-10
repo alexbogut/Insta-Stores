@@ -13,7 +13,7 @@ import { Link } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
 import { useState } from "react";
 import { searchStores } from "~/helpers/instaAuth.server";
-import type { User, Profile } from "@prisma/client";
+// import type { User, Profile } from "@prisma/client";
 
 // export const loader: LoaderFunction = async ({ request }) => {};
 export const action: ActionFunction = async ({ request }) => {
