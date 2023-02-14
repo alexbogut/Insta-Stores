@@ -1,12 +1,13 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { requireMedia } from "~/helpers/instaAuth.server";
-import { getUserId } from "~/helpers/auth.server";
+import { getUserId, requireUserId } from "~/helpers/auth.server";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Card } from "~/components/card";
 import { Link } from "@remix-run/react";
 
 export const loader: LoaderFunction = async ({ request }) => {
+  await requireUserId(request);
   const userId = await getUserId(request);
   const media = await requireMedia(userId);
   return json(media);

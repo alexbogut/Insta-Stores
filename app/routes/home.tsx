@@ -1,12 +1,15 @@
 import { SearchItem } from "~/components/searchItem";
-import type { ActionFunction } from "@remix-run/node";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { Link, useActionData } from "@remix-run/react";
-import { json } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { useState } from "react";
 import { searchStores } from "~/helpers/instaAuth.server";
+import { getUser } from "~/helpers/auth.server";
 // import type { User, Profile } from "@prisma/client";
 
-// export const loader: LoaderFunction = async ({ request }) => {};
+export const loader: LoaderFunction = async ({ request }) => {
+  return (await getUser(request)) ? redirect("/") : null;
+};
 export const action: ActionFunction = async ({ request }) => {
   const form = await request.formData();
   const query = form.get("query");
