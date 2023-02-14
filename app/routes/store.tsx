@@ -20,7 +20,7 @@ export default function Store() {
 
   let navigate = useNavigate();
   const instaLogin = () => {
-    window.location.href = `https://api.instagram.com/oauth/authorize?client_id=1332287557340473&redirect_uri=https://insta-stores-7hzw8fk1d-alexbogut.vercel.app/insta&scope=user_profile,user_media&response_type=code`;
+    window.location.href = `https://api.instagram.com/oauth/authorize?client_id=1332287557340473&redirect_uri=https://insta-stores.vercel.app/insta&scope=user_profile,user_media&response_type=code`;
   };
 
   return (
