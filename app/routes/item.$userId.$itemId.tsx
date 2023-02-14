@@ -14,6 +14,9 @@ export const loader: LoaderFunction = async ({ params }) => {
   if (typeof itemId !== "string") {
     return redirect("/home");
   }
+  if (itemId === "123456789") {
+    return redirect("/inbox");
+  }
 
   let itemjson = await getItem(itemId);
   let item = json(itemjson);

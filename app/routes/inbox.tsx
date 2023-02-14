@@ -1,5 +1,4 @@
 import type { LoaderFunction } from "@remix-run/node";
-import Delete from "~/SVG/airplay.svg";
 import { requireMedia } from "~/helpers/instaAuth.server";
 import { getUserId } from "~/helpers/auth.server";
 import { json, redirect } from "@remix-run/node";
@@ -18,15 +17,16 @@ export const loader: LoaderFunction = async ({ request }) => {
     return redirect("/login");
   }
   let messages = await getRecievedMessages(userId);
+  console.log(json(messages));
   return json(messages);
 };
 export default function Inbox() {
   const messages = useLoaderData();
-  const [text, setText] = useState(messages[0].text);
-  const [product, setProduct] = useState(messages[0].product);
-  const [header, setHeader] = useState(messages[0].author.profile);
-  const [date, setDate] = useState(new Date(messages[0].createdAt));
-  const [id, setId] = useState(messages[0].id);
+  const [text, setText] = useState(messages[0]?.text);
+  const [product, setProduct] = useState(messages[0]?.product);
+  const [header, setHeader] = useState(messages[0]?.author.profile);
+  const [date, setDate] = useState(new Date(messages[0]?.createdAt));
+  const [id, setId] = useState(messages[0]?.id);
 
   const clickHandler = (
     text: string,
@@ -80,46 +80,54 @@ export default function Inbox() {
             </div>
           </div>
           <div className="bg-blue-100 flex-initial w-[32rem] flex flex-col divide-y-2 overflow-auto">
-            {messages.map((message: any) => (
-              <Mailitem
-                key={message.id}
-                {...message}
-                clickHandler={clickHandler}
-              />
-            ))}
+            {messages.length === 0 ? (
+              <div></div>
+            ) : (
+              messages.map((message: any) => (
+                <Mailitem
+                  key={message.id}
+                  {...message}
+                  clickHandler={clickHandler}
+                />
+              ))
+            )}
           </div>
-          <div className="bg-slate-50 flex-initial w-full flex flex-col">
-            <div className="h-20 bg-slate-200 flex flex-none justify-between">
-              <div className="flex flex-col justify-between ml-4">
-                <div className="mt-2 text-xl">Item# {product.id}</div>
-                <div className="mb-2 font-light">
-                  From: {header.firstName}
-                  {` ${header.lastName}`}
+          {messages.length === 0 ? (
+            <div>No Messages yet</div>
+          ) : (
+            <div className="bg-slate-50 flex-initial w-full flex flex-col">
+              <div className="h-20 bg-slate-200 flex flex-none justify-between">
+                <div className="flex flex-col justify-between ml-4">
+                  <div className="mt-2 text-xl">Item# {product?.id}</div>
+                  <div className="mb-2 font-light">
+                    From: {header?.firstName}
+                    {` ${header?.lastName}`}
+                  </div>
+                </div>
+                <div className="flex flex-col justify-between mr-4">
+                  <form action="/deleteMessage" method="POST">
+                    <input type="hidden" value={id} name="id" />
+                    <button type="submit" className="mt-2">
+                      Delete
+                    </button>
+                  </form>
+                  <div className="mb-2 font-light">{date.toDateString()}</div>
                 </div>
               </div>
-              <div className="flex flex-col justify-between mr-4">
-                <form action="/deleteMessage" method="POST">
-                  <input type="hidden" value={id} name="id" />
-                  <button type="submit" className="mt-2">
-                    <Delete />
-                  </button>
-                </form>
-                <div className="mb-2 font-light">{date.toDateString()}</div>
-              </div>
-            </div>
-            <div className="p-7 flex justify-between ">
-              <div className="flex flex-col justify-between w-96 flex-1">
-                <div className="max-w-[350px] ">{text}</div>
-                <Link className="self-end " to={`/reply/${id}`}>
-                  <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-5 mt-5 mr-4">
-                    {`Reply ->`}
-                  </button>
-                </Link>
-              </div>
+              <div className="p-7 flex justify-between ">
+                <div className="flex flex-col justify-between w-96 flex-1">
+                  <div className="max-w-[350px] ">{text}</div>
+                  <Link className="self-end " to={`/reply/${id}`}>
+                    <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-5 mt-5 mr-4">
+                      {`Reply ->`}
+                    </button>
+                  </Link>
+                </div>
 
-              <Mailcard {...product} />
+                <Mailcard {...product} />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </Layout>

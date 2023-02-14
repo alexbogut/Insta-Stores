@@ -1,5 +1,4 @@
 import type { LoaderFunction } from "@remix-run/node";
-import Delete from "~/SVG/airplay.svg";
 import { requireMedia } from "~/helpers/instaAuth.server";
 import { getUserId } from "~/helpers/auth.server";
 import { json, redirect } from "@remix-run/node";
@@ -101,7 +100,7 @@ export default function Sent() {
                 <form action="/deleteMessage" method="POST">
                   <input type="hidden" value={id} name="id" />
                   <button type="submit" className="mt-2">
-                    <Delete />
+                    Delete
                   </button>
                 </form>
                 <div className="mb-2 font-light">{date.toDateString()}</div>

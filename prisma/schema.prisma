@@ -34,9 +34,9 @@ model Message {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   text        String
   createdAt   DateTime @default(now())
-  author      User     @relation(fields: [authorId], references: [id], "SentMessages")
+  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade, "SentMessages")
   authorId    String   @db.ObjectId
-  recipient   User     @relation(fields: [recipientId], references: [id], "RecievedMessages")
+  recipient   User     @relation(fields: [recipientId], references: [id], onDelete: Cascade, "RecievedMessages")
   recipientId String   @db.ObjectId
   product     Product
 }

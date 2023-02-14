@@ -89,11 +89,17 @@ export const getMedia = async (id: string) => {
   }
 };
 
+const deleteMedia = async (userId: string) => {
+  const res = await prisma.item.deleteMany({ where: { ownerId: userId } });
+  return res;
+};
+
 export const saveMedia = async (userId: string | null, media: any) => {
   if (userId === null) {
     return "Invalid UserID";
   }
-  await prisma.item.deleteMany({ where: { ownerId: userId } });
+
+  await deleteMedia(userId);
 
   await media.map(
     async (content: { caption: string; media_url: string; username: string }) =>
