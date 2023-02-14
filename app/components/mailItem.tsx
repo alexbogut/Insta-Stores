@@ -39,7 +39,7 @@ export function Mailitem(props: Props) {
       }}
       className={`flex flex-col transition duration-300 ease-in-out ${color} hover:bg-blue-300`}
     >
-      <div className="ml-1">Item# {props.id}</div>
+      <div className="ml-1">Item# {props.product.id}</div>
       <div className="flex justify-between ml-1 mt-2">
         <div>
           {`${props.author.profile.firstName} `}

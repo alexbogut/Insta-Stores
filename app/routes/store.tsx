@@ -51,7 +51,7 @@ export default function Store() {
         ) : (
           <h2 className="text-2xl text-center ml-11">
             No Items in Store ... Sign in to Instagram to instantly build a
-            store!{JSON.stringify(res)}
+            store!
           </h2>
         )}
       </div>
