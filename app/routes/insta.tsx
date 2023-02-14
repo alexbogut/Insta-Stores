@@ -6,9 +6,7 @@ import {
 } from "~/helpers/instaAuth.server";
 import { getUserId } from "~/helpers/auth.server";
 import type { LoaderFunction } from "@remix-run/node";
-import { Outlet, useLoaderData } from "@remix-run/react";
-import { Card } from "~/components/card";
-import { redirect, json } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 
 export const loader: LoaderFunction = async ({ request }) => {
   let url = new URL(request.url);

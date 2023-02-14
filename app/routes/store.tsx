@@ -1,10 +1,8 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { requireMedia } from "~/helpers/instaAuth.server";
 import { getUserId } from "~/helpers/auth.server";
-import { clearMessages } from "~/helpers/message.server";
-import { json, redirect } from "@remix-run/node";
-import { Outlet, useLoaderData, useNavigate } from "@remix-run/react";
-import { useEffect, useRef } from "react";
+import { json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import { Card } from "~/components/card";
 import { Link } from "@remix-run/react";
 
@@ -16,7 +14,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function Store() {
   const res = useLoaderData();
 
-  let navigate = useNavigate();
   const instaLogin = () => {
     window.location.href = `https://api.instagram.com/oauth/authorize?client_id=1332287557340473&redirect_uri=https://d604-67-241-238-43.ngrok.io/insta&scope=user_profile,user_media&response_type=code`;
   };

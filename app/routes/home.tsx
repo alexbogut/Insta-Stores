@@ -1,16 +1,7 @@
-import { Layout } from "~/components/layout";
-import { Card } from "~/components/card";
 import { SearchItem } from "~/components/searchItem";
-import type { LoaderFunction, ActionFunction } from "@remix-run/node";
-import { requireUserId } from "~/helpers/auth.server";
-import {
-  Outlet,
-  useLoaderData,
-  useActionData,
-  useNavigate,
-} from "@remix-run/react";
-import { Link } from "@remix-run/react";
-import { json, redirect } from "@remix-run/node";
+import type { ActionFunction } from "@remix-run/node";
+import { Link, useActionData } from "@remix-run/react";
+import { json } from "@remix-run/node";
 import { useState } from "react";
 import { searchStores } from "~/helpers/instaAuth.server";
 // import type { User, Profile } from "@prisma/client";

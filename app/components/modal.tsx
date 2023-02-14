@@ -1,7 +1,6 @@
 // app/components/modal.tsx
 import { Portal } from "./portal";
 import { useNavigate } from "@remix-run/react";
-import { useState } from "react";
 
 interface props {
   children: React.ReactNode;

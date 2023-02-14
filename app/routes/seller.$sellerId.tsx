@@ -1,8 +1,6 @@
 import type { LoaderFunction } from "@remix-run/node";
-import { requireMedia, getMedia } from "~/helpers/instaAuth.server";
-import { getUserId } from "~/helpers/auth.server";
-import { json, redirect } from "@remix-run/node";
-import { Outlet, useLoaderData } from "@remix-run/react";
+import { getMedia } from "~/helpers/instaAuth.server";
+import { useLoaderData } from "@remix-run/react";
 import { Card } from "~/components/card";
 import { Link } from "@remix-run/react";
 

@@ -1,12 +1,10 @@
 import { Modal } from "~/components/modal";
-import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
+import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 import { useActionData, useLoaderData } from "@remix-run/react";
-import { getUserById } from "~/helpers/user.server";
 import { requireUserId } from "~/helpers/auth.server";
 import { useState } from "react";
-import { createMessage } from "~/helpers/message.server";
-import { getMessage } from "~/helpers/message.server";
+import { createMessage, getMessage } from "~/helpers/message.server";
 
 export const loader: LoaderFunction = async ({ params }) => {
   const { messageId } = params;

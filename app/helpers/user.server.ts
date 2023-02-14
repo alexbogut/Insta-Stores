@@ -18,7 +18,7 @@ export const createUser = async (user: RegisterForm) => {
       },
     },
   });
-  const newUserMessage = await prisma.message.create({
+  await prisma.message.create({
     data: {
       text: "Hello! Welcome to your Insta Stores Mailbox! This is where all sent and recived messages from other users will reside. The item of interest will be displayed to to the right.",
       author: {
