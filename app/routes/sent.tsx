@@ -1,13 +1,11 @@
 import type { LoaderFunction } from "@remix-run/node";
-import { requireMedia } from "~/helpers/instaAuth.server";
 import { getUserId } from "~/helpers/auth.server";
 import { json, redirect } from "@remix-run/node";
-import { Outlet, useLoaderData, useNavigate } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { Mailcard } from "~/components/mailCard";
 import { Link } from "@remix-run/react";
 import { useState } from "react";
 import { Layout } from "~/components/layout";
-import { Mailcontent } from "~/components/mailContent";
 import { Mailitem } from "~/components/mailItem";
 import { getSentMessages } from "~/helpers/message.server";
 

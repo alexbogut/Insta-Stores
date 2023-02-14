@@ -1,5 +1,5 @@
 // app/routes/login.tsx
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useActionData } from "@remix-run/react";
 import { Layout } from "~/components/layout";
 import { FormField } from "~/components/form-field";
@@ -11,10 +11,8 @@ import {
   validatePassword,
 } from "~/helpers/validators.server";
 import { login, register, getUser } from "~/helpers/auth.server";
-import { Link } from "@remix-run/react";
 
 export const loader: LoaderFunction = async ({ request }) => {
-  // If there's already a user in the session, redirect to the home page
   return (await getUser(request)) ? redirect("/") : null;
 };
 
@@ -79,18 +77,11 @@ export const action: ActionFunction = async ({ request }) => {
 export default function Login() {
   const [action, setAction] = useState("login");
   const actionData = useActionData();
-  const firstLoad = useRef(true);
   useEffect(() => {
     if (actionData) {
       setAction(actionData?.form);
     }
   }, [actionData]);
-
-  // useEffect(() => {
-  //   if (firstLoad.current) {
-  //     setAction("login");
-  //   }
-  // }, []);
 
   const [errors, setErrors] = useState(actionData?.errors || {});
   const [formError, setFormError] = useState(actionData?.error || "");
@@ -107,30 +98,6 @@ export default function Login() {
   ) => {
     setFormData((form) => ({ ...form, [field]: event.target.value }));
   };
-
-  // useEffect(() => {
-  //   if (!firstLoad.current) {
-  //     const newState = {
-  //       email: "",
-  //       password: "",
-  //       firstName: "",
-  //       lastName: "",
-  //     };
-  //     setErrors(newState);
-  //     setFormError("");
-  //     setFormData(newState);
-  //   }
-  // }, [action]);
-
-  // useEffect(() => {
-  //   if (!firstLoad.current) {
-  //     setFormError("");
-  //   }
-  // }, [formData]);
-
-  // useEffect(() => {
-  //   firstLoad.current = false;
-  // }, []);
 
   return (
     <Layout>
