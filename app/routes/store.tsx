@@ -10,9 +10,7 @@ import { Link } from "@remix-run/react";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const userId = await getUserId(request);
-  console.log(userId);
   const media = await requireMedia(userId);
-  console.log(json(media));
   return json(media);
 };
 export default function Store() {
@@ -20,7 +18,7 @@ export default function Store() {
 
   let navigate = useNavigate();
   const instaLogin = () => {
-    window.location.href = `https://api.instagram.com/oauth/authorize?client_id=1332287557340473&redirect_uri=https://insta-stores.vercel.app/insta&scope=user_profile,user_media&response_type=code`;
+    window.location.href = `https://api.instagram.com/oauth/authorize?client_id=1332287557340473&redirect_uri=https://d604-67-241-238-43.ngrok.io/insta&scope=user_profile,user_media&response_type=code`;
   };
 
   return (
