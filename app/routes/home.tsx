@@ -8,7 +8,7 @@ import { getUser } from "~/helpers/auth.server";
 // import type { User, Profile } from "@prisma/client";
 
 export const loader: LoaderFunction = async ({ request }) => {
-  return (await getUser(request)) ? redirect("/") : null;
+  return (await getUser(request)) ? null : redirect("/login");
 };
 export const action: ActionFunction = async ({ request }) => {
   const form = await request.formData();
@@ -23,7 +23,6 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function Home() {
   const actionData = useActionData();
-  // let navigate = useNavigate();
   const [formData, setFormData] = useState({
     query: "",
   });
@@ -33,11 +32,6 @@ export default function Home() {
   ) => {
     setFormData((form) => ({ ...form, [field]: event.target.value }));
   };
-
-  // const handleStoreClick = (sellerId: string) => {
-  //   console.log("clicked");
-  //   navigate(`/store/seller/${sellerId}`);
-  // };
 
   return (
     <>
