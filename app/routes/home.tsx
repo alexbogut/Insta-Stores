@@ -5,7 +5,7 @@ import { json, redirect } from "@remix-run/node";
 import { useState } from "react";
 import { searchStores } from "~/helpers/instaAuth.server";
 import { getUser } from "~/helpers/auth.server";
-// import type { User, Profile } from "@prisma/client";
+import { Layout } from "~/components/layout";
 
 export const loader: LoaderFunction = async ({ request }) => {
   return (await getUser(request)) ? null : redirect("/login");
@@ -17,12 +17,12 @@ export const action: ActionFunction = async ({ request }) => {
     return json({ error: `Invalid Form Data`, form: action }, { status: 400 });
   }
   const search = await searchStores(query);
-  console.log(search);
   return search;
 };
 
 export default function Home() {
   const actionData = useActionData();
+
   const [formData, setFormData] = useState({
     query: "",
   });
@@ -34,7 +34,7 @@ export default function Home() {
   };
 
   return (
-    <>
+    <Layout>
       <div className="flex justify-between">
         <div className="flex-initial w-100 ml-5 mt-4">
           <form action="/logout" method="POST">
@@ -46,6 +46,10 @@ export default function Home() {
             </button>
           </form>
         </div>
+        <div className="flex justify-center">
+          <h2 className="text-[90px] font-title mb-8 ml-24">Insta Stores</h2>
+        </div>
+
         <div className="flex-initial w-100 mr-5 mt-4">
           <Link to="/inbox">
             <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mr-5">
@@ -59,11 +63,7 @@ export default function Home() {
           </Link>
         </div>
       </div>
-      <div className="flex justify-center">
-        <h2 className="text-xl font-semibold">
-          Search for other Insta users store's or click Search to explore.
-        </h2>
-      </div>
+
       <div className="flex justify-center mt-5">
         <div className="w-1/2">
           <form method="POST">
@@ -98,7 +98,7 @@ export default function Home() {
                 value={formData.query}
                 onChange={(e) => handleInputChange(e, "query")}
                 className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Search Users, Stores..."
+                placeholder="Search Users, Stores... or click the search button to explore!"
               />
               <button
                 type="submit"
@@ -126,6 +126,6 @@ export default function Home() {
               <SearchItem key={store.id} {...store} />
             ))}
       </div>
-    </>
+    </Layout>
   );
 }
