@@ -23,17 +23,3 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   return redirect("/store");
 };
-// export default function Store() {
-//   const { data } = useLoaderData();
-
-//   return (
-//     <>
-//       <Outlet />
-//       <div className="grid grid-cols-4 gap-4">
-//         {data.map((item: any) => (
-//           <Card key={item.id} {...item} />
-//         ))}
-//       </div>
-//     </>
-//   );
-// }

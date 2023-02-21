@@ -14,7 +14,6 @@ export const loader: LoaderFunction = async ({ request }) => {
     return redirect("/login");
   }
   let messages = await getRecievedMessages(userId);
-  console.log(json(messages));
   return json(messages);
 };
 export default function Inbox() {

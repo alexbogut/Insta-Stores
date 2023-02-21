@@ -8,20 +8,14 @@ interface Props {
 
 export function SearchItem({ id, username }: Props) {
   return (
-    // <div>
-    //   <h2>{username}</h2>
-
-    //   <button onClick={onClick()}>hello</button>
-    // </div>
-    <div className="bm-10">
-      <Link className="text-xl font-semibold" to={`/seller/${id}`}>
-        <button
-          type="button"
-          className="w-full inline-block px-6 py-2 border-2 border-blue-600 text-blue-600 font-medium text-xs leading-normal uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
-        >
-          {username}
-        </button>
+    <div className="bm-10 mb-3">
+      <Link
+        className="text-xl text-blue-600 font-semibold"
+        to={`/seller/${id}`}
+      >
+        <h2>{username}</h2>
       </Link>
+      <hr />
     </div>
   );
 }

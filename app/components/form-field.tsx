@@ -36,7 +36,7 @@ export function FormField({
         className="w-full p-2 my-2"
         value={value}
       />
-      <div className="text-xs font-semibold text-center tracking-wide text-red-700 w-full">
+      <div className="text-xs font-semibold text-center tracking-wide text-red-600 w-full">
         {errorText || ""}
       </div>
     </>
